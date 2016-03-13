@@ -171,7 +171,6 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
         componentLabelIsUrl.setLayoutData(formDataLabelIsUrl);
         componentIsUrl = new Button(shell, SWT.CHECK);
         props.setLook(componentIsUrl);
-        //componentIsUrl.addModifyListener(lsMod);
         formDataIsUrl = new FormData();
         formDataIsUrl.left = new FormAttachment(middle, 0);
         formDataIsUrl.right = new FormAttachment(100, 0);

@@ -26,8 +26,8 @@ public class ValidatorPlugin extends BaseStep implements StepInterface {
         meta = (ValidatorPluginMeta)smi;
         data = (ValidatorPluginData)sdi;
 
-        Object[] r=getRow();    // get row, blocks when needed!
-        if (r==null)  // no more input to be expected...
+        Object[] r = getRow();    // get row, blocks when needed!
+        if (r == null)  // no more input to be expected...
         {
             setOutputDone();
             return false;
@@ -36,19 +36,23 @@ public class ValidatorPlugin extends BaseStep implements StepInterface {
         if (first)
         {
             first = false;
-
+            // determine output field structure:
             data.outputRowMeta = (RowMetaInterface)getInputRowMeta().clone();
+
             meta.getFields(data.outputRowMeta, getStepname(), null, null, this);
         }
+        // generate output row, make it correct size
+        Object[] outputRow = RowDataUtil.resizeArray(r, data.outputRowMeta.size());
 
         Object extraValue = meta.getValue().getValueData();
 
-        Object[] outputRow = RowDataUtil.addValueData(r, data.outputRowMeta.size()-1, extraValue);
+        //Object[] outputRow = RowDataUtil.addValueData(r, data.outputRowMeta.size() - 1, extraValue);
 
         putRow(data.outputRowMeta, outputRow);     // copy row to possible alternate rowset(s).
 
-        if (checkFeedback(linesRead)) logBasic("Linenr "+linesRead);  // Some basic logging every 5000 rows.
-
+        if (checkFeedback(getLinesRead())) {
+            logBasic("Line # " + getLinesRead());  // Some basic logging every 5000 rows.
+        }
         return true;
     }
 
