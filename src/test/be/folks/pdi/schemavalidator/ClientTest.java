@@ -1,5 +1,6 @@
-package be.folks.pdi.schemavalidator;
+package test.be.folks.pdi.schemavalidator;
 
+import be.folks.pdi.schemavalidator.Client;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import junit.framework.TestCase;
 
@@ -13,11 +14,6 @@ public class ClientTest extends TestCase {
 
     @org.junit.After
     public void tearDown() throws Exception {
-
-    }
-
-    @org.junit.Test
-    public void testGetReport() throws Exception {
 
     }
 
