@@ -30,14 +30,27 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
     private ValidatorPluginMeta input;
     private ValueMetaAndData value;
 
-    private Label        wlValName;
-    private Text         wValName;
-    private FormData     fdlValName, fdValName;
+    // JSON object:
+    private Label componentLabelJsonObject;
+    private Text componentJsonObject;
+    private FormData formDataLabelJsonObject;
+    private FormData formDataJsonObject;
+    // JSON schema:
+    private Label componentLabelJsonSchema;
+    private Text componentJsonSchema;
+    private FormData formDataLabelJsonSchema;
+    private FormData formDataJsonSchema;
+    // Validation output column name:
+    private Label componentLabelValidationOutput;
+    private Text componentValidationOutput;
+    private FormData formDataLabelValidationOutput;
+    private FormData formDataValidationOutput;
+    // is schema URL checkbox:
+    private Label componentLabelIsUrl;
+    private Button componentIsUrl;
+    private FormData formDataLabelIsUrl;
+    private FormData formDataIsUrl;
 
-    private Label        wlValue;
-    private Button       wbValue;
-    private Text         wValue;
-    private FormData     fdlValue, fdbValue, fdValue;
 
 
     public ValidatorPluginDialog(Shell parent, Object in, TransMeta transMeta, String sname)
@@ -56,8 +69,7 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
         props.setLook( shell );
         setShellImage(shell, input);
 
-        ModifyListener lsMod = new ModifyListener()
-        {
+        ModifyListener lsMod = new ModifyListener() {
             public void modifyText(ModifyEvent e)
             {
                 input.setChanged();
@@ -94,65 +106,77 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
         fdStepname.right= new FormAttachment(100, 0);
         wStepname.setLayoutData(fdStepname);
 
-        // ValName line
-        wlValName=new Label(shell, SWT.RIGHT);
-        wlValName.setText(Messages.getString("ValidatorPluginDialog.ValueName.Label")); //$NON-NLS-1$
-        props.setLook( wlValName );
-        fdlValName=new FormData();
-        fdlValName.left = new FormAttachment(0, 0);
-        fdlValName.right= new FormAttachment(middle, -margin);
-        fdlValName.top  = new FormAttachment(wStepname, margin);
-        wlValName.setLayoutData(fdlValName);
-        wValName=new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-        props.setLook( wValName );
-        wValName.addModifyListener(lsMod);
-        fdValName=new FormData();
-        fdValName.left = new FormAttachment(middle, 0);
-        fdValName.right= new FormAttachment(100, 0);
-        fdValName.top  = new FormAttachment(wStepname, margin);
-        wValName.setLayoutData(fdValName);
+        // JSON object line:
+        componentLabelJsonObject = new Label(shell, SWT.RIGHT);
+        componentLabelJsonObject.setText(Messages.getString("ValidatorPluginDialog.JsonObject.Label"));
+        props.setLook(componentLabelJsonObject);
+        formDataLabelJsonObject = new FormData();
+        formDataLabelJsonObject.left = new FormAttachment(0, 0);
+        formDataLabelJsonObject.right= new FormAttachment(middle, -margin);
+        formDataLabelJsonObject.top  = new FormAttachment(wStepname, margin);
+        componentLabelJsonObject.setLayoutData(formDataLabelJsonObject);
+        componentJsonObject = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+        props.setLook(componentJsonObject);
+        componentJsonObject.addModifyListener(lsMod);
+        formDataJsonObject = new FormData();
+        formDataJsonObject.left = new FormAttachment(middle, 0);
+        formDataJsonObject.right = new FormAttachment(100, 0);
+        formDataJsonObject.top  = new FormAttachment(wStepname, margin);
+        componentJsonObject.setLayoutData(formDataJsonObject);
 
-        // Value line
-        wlValue=new Label(shell, SWT.RIGHT);
-        wlValue.setText(Messages.getString("ValidatorPluginDialog.ValueToAdd.Label")); //$NON-NLS-1$
-        props.setLook( wlValue );
-        fdlValue=new FormData();
-        fdlValue.left = new FormAttachment(0, 0);
-        fdlValue.right= new FormAttachment(middle, -margin);
-        fdlValue.top  = new FormAttachment(wValName, margin);
-        wlValue.setLayoutData(fdlValue);
+        // JSON schema line:
+        componentLabelJsonSchema = new Label(shell, SWT.RIGHT);
+        componentLabelJsonSchema.setText(Messages.getString("ValidatorPluginDialog.JsonSchema.Label"));
+        props.setLook(componentLabelJsonSchema);
+        formDataLabelJsonSchema = new FormData();
+        formDataLabelJsonSchema.left = new FormAttachment(0, 0);
+        formDataLabelJsonSchema.right= new FormAttachment(middle, -margin);
+        formDataLabelJsonSchema.top  = new FormAttachment(componentJsonObject, margin);
+        componentLabelJsonSchema.setLayoutData(formDataLabelJsonSchema);
+        componentJsonSchema = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+        props.setLook(componentJsonSchema);
+        componentJsonSchema.addModifyListener(lsMod);
+        formDataJsonSchema = new FormData();
+        formDataJsonSchema.left = new FormAttachment(middle, 0);
+        formDataJsonSchema.right = new FormAttachment(100, 0);
+        formDataJsonSchema.top  = new FormAttachment(componentJsonObject, margin);
+        componentJsonSchema.setLayoutData(formDataJsonSchema);
 
-        wbValue=new Button(shell, SWT.PUSH| SWT.CENTER);
-        props.setLook( wbValue );
-        wbValue.setText(Messages.getString("System.Button.Edit")); //$NON-NLS-1$
-        fdbValue=new FormData();
-        fdbValue.right= new FormAttachment(100, 0);
-        fdbValue.top  = new FormAttachment(wValName, margin);
-        wbValue.setLayoutData(fdbValue);
+        // Validation output column line:
+        componentLabelValidationOutput = new Label(shell, SWT.RIGHT);
+        componentLabelValidationOutput.setText(Messages.getString("ValidatorPluginDialog.ValidationOutput.Label"));
+        props.setLook(componentLabelValidationOutput);
+        formDataLabelValidationOutput = new FormData();
+        formDataLabelValidationOutput.left = new FormAttachment(0, 0);
+        formDataLabelValidationOutput.right= new FormAttachment(middle, -margin);
+        formDataLabelValidationOutput.top  = new FormAttachment(componentJsonSchema, margin);
+        componentLabelValidationOutput.setLayoutData(formDataLabelValidationOutput);
+        componentValidationOutput = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+        props.setLook(componentValidationOutput);
+        componentValidationOutput.addModifyListener(lsMod);
+        formDataValidationOutput = new FormData();
+        formDataValidationOutput.left = new FormAttachment(middle, 0);
+        formDataValidationOutput.right = new FormAttachment(100, 0);
+        formDataValidationOutput.top  = new FormAttachment(componentJsonSchema, margin);
+        componentValidationOutput.setLayoutData(formDataValidationOutput);
 
-        wValue=new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-        props.setLook( wValue );
-        wValue.addModifyListener(lsMod);
-        fdValue=new FormData();
-        fdValue.left = new FormAttachment(middle, 0);
-        fdValue.right= new FormAttachment(wbValue, -margin);
-        fdValue.top  = new FormAttachment(wValName, margin);
-        wValue.setLayoutData(fdValue);
-
-        wbValue.addSelectionListener(new SelectionAdapter()
-        {
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                ValueMetaAndData v = (ValueMetaAndData) value.clone();
-                EnterValueDialog evd = new EnterValueDialog(shell, SWT.NONE, v.getValueMeta(), v.getValueData());
-                ValueMetaAndData newval = evd.open();
-                if (newval!=null)
-                {
-                    value = newval;
-                    getData();
-                }
-            }
-        });
+        // Is schema URL checkbox:
+        componentLabelIsUrl = new Label(shell, SWT.RIGHT);
+        componentLabelIsUrl.setText(Messages.getString("ValidatorPluginDialog.IsUrl.Label"));
+        props.setLook(componentLabelIsUrl);
+        formDataLabelIsUrl = new FormData();
+        formDataLabelIsUrl.left = new FormAttachment(0, 0);
+        formDataLabelIsUrl.right= new FormAttachment(middle, -margin);
+        formDataLabelIsUrl.top  = new FormAttachment(componentValidationOutput, margin);
+        componentLabelIsUrl.setLayoutData(formDataLabelIsUrl);
+        componentIsUrl = new Button(shell, SWT.CHECK);
+        props.setLook(componentIsUrl);
+        //componentIsUrl.addModifyListener(lsMod);
+        formDataIsUrl = new FormData();
+        formDataIsUrl.left = new FormAttachment(middle, 0);
+        formDataIsUrl.right = new FormAttachment(100, 0);
+        formDataIsUrl.top  = new FormAttachment(componentValidationOutput, margin);
+        componentIsUrl.setLayoutData(formDataIsUrl);
 
         // Some buttons
         wOK=new Button(shell, SWT.PUSH);
@@ -160,11 +184,17 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
         wCancel=new Button(shell, SWT.PUSH);
         wCancel.setText(Messages.getString("System.Button.Cancel")); //$NON-NLS-1$
 
-        BaseStepDialog.positionBottomButtons(shell, new Button[] { wOK, wCancel}, margin, wValue);
+        BaseStepDialog.positionBottomButtons(shell, new Button[] { wOK, wCancel}, margin, componentIsUrl);
 
         // Add listeners
-        lsCancel   = new Listener() { public void handleEvent(Event e) { cancel(); } };
-        lsOK       = new Listener() { public void handleEvent(Event e) { ok();     } };
+        lsCancel = new Listener() {
+            public void handleEvent(Event e) { cancel();
+            }
+        };
+        lsOK = new Listener() {
+            public void handleEvent(Event e) { ok();
+            }
+        };
 
         wCancel.addListener(SWT.Selection, lsCancel);
         wOK.addListener    (SWT.Selection, lsOK    );
@@ -172,7 +202,8 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
         lsDef=new SelectionAdapter() { public void widgetDefaultSelected(SelectionEvent e) { ok(); } };
 
         wStepname.addSelectionListener( lsDef );
-        wValName.addSelectionListener( lsDef );
+        componentJsonObject.addSelectionListener( lsDef );
+        componentJsonSchema.addSelectionListener( lsDef );
 
         // Detect X or ALT-F4 or something that kills this window...
         shell.addShellListener(	new ShellAdapter() { public void shellClosed(ShellEvent e) { cancel(); } } );
@@ -197,14 +228,14 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
         wStepname.selectAll();
         if (value!=null)
         {
-            wValName.setText(value.getValueMeta().getName());
-            wValue.setText(value.toString()+" ("+value.toStringMeta()+")"); //$NON-NLS-1$ //$NON-NLS-2$
+            //wValName.setText(value.getValueMeta().getName());
+            //wValue.setText(value.toString()+" ("+value.toStringMeta()+")"); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
     private void cancel()
     {
-        stepname=null;
+        stepname = null;
         input.setChanged(changed);
         dispose();
     }
@@ -212,8 +243,8 @@ public class ValidatorPluginDialog extends BaseStepDialog implements StepDialogI
     private void ok()
     {
         stepname = wStepname.getText(); // return value
-        value.getValueMeta().setName(wValName.getText());
-        input.setValue( value );
+        value.getValueMeta().setName(componentJsonObject.getText());
+        input.setValue(value);
         dispose();
     }
 }
